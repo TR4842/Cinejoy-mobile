@@ -51,9 +51,25 @@ jobs:
         with:
           distribution: temurin
           java-version: 21
+          cache: gradle
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+      # The ubuntu runner image already ships the Android SDK; make sure the
+      # platform/build-tools the project targets are present and licensed.
+      - name: Prepare Android SDK
+        run: |
+          set -e
+          SDK="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-/usr/local/lib/android/sdk}}"
+          echo "ANDROID_HOME=$SDK" >> "$GITHUB_ENV"
+          echo "ANDROID_SDK_ROOT=$SDK" >> "$GITHUB_ENV"
+          echo "sdk.dir=$SDK" > app/android/local.properties
+          echo "Using SDK at $SDK"
+          ls "$SDK/platforms" 2>/dev/null | sort | tail -5 || true
+          if [ -x "$SDK/cmdline-tools/latest/bin/sdkmanager" ]; then
+            yes | "$SDK/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null 2>&1 || true
+            "$SDK/cmdline-tools/latest/bin/sdkmanager" --install \
+              "platform-tools" "platforms;android-36" "build-tools;36.0.0" > /dev/null 2>&1 || \
+              echo "::warning::sdkmanager could not install android-36; Gradle will fetch what it needs"
+          fi
 
       - name: Sync web assets into the native project
         working-directory: app
@@ -71,7 +87,7 @@ jobs:
         working-directory: app/android
         run: |
           chmod +x ./gradlew
-          ./gradlew ${{ github.event.inputs.build_type || 'assembleDebug' }} --no-daemon --stacktrace
+          ./gradlew ${{ github.event.inputs.build_type || 'assembleDebug' }} --no-daemon --stacktrace --warning-mode=summary
 
       - name: Rename artifact
         run: |
