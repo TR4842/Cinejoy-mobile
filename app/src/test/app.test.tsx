@@ -75,7 +75,7 @@ describe('shell', () => {
     expect(await screen.findByRole('link', { name: /cinejoy home/i })).toHaveTextContent(/CINE/i)
     expect(await screen.findByText('Trending movies')).toBeInTheDocument()
     expect(await screen.findByText('Trending series')).toBeInTheDocument()
-    expect(screen.getAllByText('The Cycle').length).toBeGreaterThan(0)
+    expect((await screen.findAllByText('The Cycle')).length).toBeGreaterThan(0)
     // sample-catalog banner appears when the live feed is unreachable
     expect(screen.getByText(/Sample catalog/i)).toBeInTheDocument()
   })
@@ -108,7 +108,7 @@ describe('shell', () => {
   it('opens the player and exposes the quality/source controls', async () => {
     renderApp('/watch/1290418')
     expect(await screen.findByLabelText('Seek')).toBeInTheDocument()
-    expect(screen.getAllByText('The Cycle').length).toBeGreaterThan(0)
+    expect((await screen.findAllByText('The Cycle')).length).toBeGreaterThan(0)
     expect(screen.getByLabelText('Download options')).toBeInTheDocument()
     await userEvent.click(screen.getByLabelText('Download options'))
     expect(await screen.findByRole('heading', { name: 'Download' })).toBeInTheDocument()
@@ -132,7 +132,8 @@ describe('shell', () => {
   it('renders settings with the catalog status', async () => {
     renderApp('/settings')
     expect(await screen.findByRole('heading', { name: /settings/i })).toBeInTheDocument()
-    expect(screen.getAllByText(/Bundled sample catalog/i).length).toBeGreaterThan(0)
+    // the status line appears once the bundled catalog has loaded
+    expect((await screen.findAllByText(/Bundled sample catalog/i)).length).toBeGreaterThan(0)
     expect(screen.getByLabelText(/use live cinejoy.pk feed/i)).toBeChecked()
   })
 
