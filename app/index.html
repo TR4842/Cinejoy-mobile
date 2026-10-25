@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no"
+    />
+    <title>Cinejoy — Movies &amp; Series</title>
+    <meta name="description" content="Cinejoy for Android — stream movies and series, download for offline, and pick up where you left off." />
+    <meta name="theme-color" content="#08080b" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Cinejoy" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png" />
+    <link rel="apple-touch-icon" href="./icons/icon-192.png" />
+    <link rel="preconnect" href="https://image.tmdb.org" crossorigin />
+    <link rel="dns-prefetch" href="https://image.tmdb.org" />
+    <style>
+      /* Splash shown until React mounts — matches the in-app loading state. */
+      html,
+      body {
+        margin: 0;
+        background: #08080b;
+      }
+      #boot {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+        background: radial-gradient(60% 50% at 50% 40%, #17101a 0%, #08080b 70%);
+        z-index: 9999;
+        transition: opacity 0.35s ease;
+      }
+      #boot.is-hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .boot-glow {
+        position: absolute;
+        width: 320px;
+        height: 320px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 46, 99, 0.32), transparent 68%);
+        filter: blur(30px);
+        animation: boot-pulse 2.4s ease-in-out infinite;
+      }
+      .boot-mark {
+        position: relative;
+        width: 104px;
+        height: 104px;
+        border-radius: 26px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+        animation: boot-rise 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+      }
+      .boot-word {
+        position: relative;
+        font: 800 15px/1 -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        letter-spacing: 0.28em;
+        color: #f5f5f7;
+        padding-left: 0.28em;
+      }
+      .boot-word span {
+        background: linear-gradient(135deg, #ff2e63, #ff8a3d);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .boot-bar {
+        position: relative;
+        width: 120px;
+        height: 3px;
+        border-radius: 3px;
+        background: rgba(255, 255, 255, 0.12);
+        overflow: hidden;
+      }
+      .boot-bar span {
+        position: absolute;
+        inset: 0 auto 0 0;
+        width: 40%;
+        border-radius: 3px;
+        background: linear-gradient(135deg, #ff2e63, #ff7a3d);
+        animation: boot-slide 1.15s ease-in-out infinite;
+      }
+      @keyframes boot-pulse {
+        0%,
+        100% {
+          opacity: 0.65;
+          transform: scale(0.95);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.06);
+        }
+      }
+      @keyframes boot-rise {
+        from {
+          opacity: 0;
+          transform: translateY(10px) scale(0.94);
+        }
+      }
+      @keyframes boot-slide {
+        0% {
+          transform: translateX(-100%);
+        }
+        100% {
+          transform: translateX(320%);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .boot-glow,
+        .boot-mark,
+        .boot-bar span {
+          animation: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="boot" aria-hidden="true">
+      <div class="boot-glow"></div>
+      <img class="boot-mark" src="./icons/icon-512.png" alt="" />
+      <div class="boot-word">CINE<span>JOY</span></div>
+      <div class="boot-bar"><span></span></div>
+    </div>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

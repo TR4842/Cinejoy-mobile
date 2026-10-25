@@ -1,0 +1,36 @@
+{
+  "name": "Cinejoy — Movies & Series",
+  "short_name": "Cinejoy",
+  "description": "Stream movies and series, download for offline playback, and pick up where you left off.",
+  "start_url": "./#/",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#08080b",
+  "theme_color": "#08080b",
+  "categories": ["entertainment", "video"],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    { "name": "Search", "url": "./#/search", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Downloads", "url": "./#/downloads", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] }
+  ]
+}
