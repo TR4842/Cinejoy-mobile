@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FF2E63</color>
+    <color name="colorPrimaryDark">#08080B</color>
+    <color name="colorAccent">#FF8A3D</color>
+    <color name="cinejoyBackground">#08080B</color>
+    <color name="cinejoySurface">#14141D</color>
+    <color name="ic_launcher_background">#08080B</color>
+</resources>

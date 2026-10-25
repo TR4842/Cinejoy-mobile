@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Cinejoy</string>
+    <string name="title_activity_main">Cinejoy</string>
+    <string name="package_name">pk.cinejoy.app</string>
+    <string name="custom_url_scheme">pk.cinejoy.app</string>
+</resources>
