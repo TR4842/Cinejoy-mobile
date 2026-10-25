@@ -77,7 +77,17 @@ node server/index.mjs  # http://localhost:8787, Vite proxies /api to it
 The app detects the API automatically and silently falls back to the bundled
 catalog when it is unreachable, so the UI is never blocked on the network.
 
-### Build the APK
+### Get the APK without a toolchain
+
+1. Open **Actions → Android APK** on this repository and pick the newest green run.
+2. Download the **`cinejoy-apk`** artifact (≈29 MB) and unzip it → `cinejoy.apk`.
+3. Copy it to your phone and tap it (allow "install unknown apps" for your file
+   manager). Android 7+ is supported.
+
+Pushing a tag (`git tag v1.0.0 && git push --tags`) also attaches that same APK
+to a GitHub **Release**, which is the friendliest way to share it.
+
+### Build the APK yourself
 
 ```bash
 cd app
@@ -87,8 +97,8 @@ cd android && ./gradlew assembleDebug
 # → app/build/outputs/apk/debug/app-debug.apk
 ```
 
-You need JDK 21 and the Android SDK (`ANDROID_HOME`). If you don't have them,
-push the branch and grab the APK from **Actions → Android APK → cinejoy-apk**.
+You need JDK 21 and the Android SDK (`ANDROID_HOME`). The CI job does exactly
+this on every push, so use the artifact if you don't have a local toolchain.
 
 The workflow (`.github/workflows/android.yml`) runs type-check, the unit tests,
 both test suites and the Gradle build on every push, uploads `cinejoy-apk`, and
