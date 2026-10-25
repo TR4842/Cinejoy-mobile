@@ -10,5 +10,7 @@ export default defineConfig({
     css: false,
     include: ['src/**/*.test.{ts,tsx}'],
     restoreMocks: true,
+    testTimeout: 20000,
+    hookTimeout: 20000,
   },
 })

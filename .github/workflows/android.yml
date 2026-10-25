@@ -86,8 +86,23 @@ jobs:
       - name: Build
         working-directory: app/android
         run: |
+          set +e
           chmod +x ./gradlew
-          ./gradlew ${{ github.event.inputs.build_type || 'assembleDebug' }} --no-daemon --stacktrace --warning-mode=summary
+          java -version || true
+          ./gradlew ${{ github.event.inputs.build_type || 'assembleDebug' }} \
+            --no-daemon --stacktrace --warning-mode=summary > gradle-build.log 2>&1
+          status=$?
+          if [ $status -ne 0 ]; then
+            echo "---- java ----"; java -version 2>&1 || true
+            echo "---- sdk ----"; ls "${ANDROID_HOME}/platforms" 2>/dev/null || true
+            echo "---- error ----"; grep -A8 "What went wrong" gradle-build.log | head -20
+            ERR=$(grep -A8 "What went wrong" gradle-build.log | tr '\n' ' ' | cut -c1-900)
+            [ -z "$ERR" ] && ERR=$(tail -20 gradle-build.log | tr '\n' ' ' | cut -c1-900)
+            echo "::error title=Gradle build failed::$ERR"
+          else
+            tail -5 gradle-build.log
+          fi
+          exit $status
 
       - name: Rename artifact
         run: |
